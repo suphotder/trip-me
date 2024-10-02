@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Page } from "react-onsenui";
 import { useMediaQuery } from "@material-ui/core";
-import { Row, Col, Image } from "antd";
+import { Row, Col, Image, Modal } from "antd";
 import styles from "./TripPage.module.scss";
 import { TripViewModel } from "../viewmodels/TripViewModel";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import TagView from "./TagView";
 import Search from "antd/es/input/Search";
 import { TagViewModel } from "../viewmodels/TagViewModel";
 import DetailView from "./DetailView";
+import { PhotoModalViewModel } from "../viewmodels/PhotoModalViewModel";
 
 function TripPage() {
   const isXS = useMediaQuery("(max-width: 576px)");
@@ -21,6 +22,7 @@ function TripPage() {
   }
   const { trips, loadingTrip } = TripViewModel(keyword);
   const { tags, loadingTag } = TagViewModel();
+  const { photo, setPhoto, isOpenPhoto, setOpenPhoto } = PhotoModalViewModel();
 
   const navigateToTrips = (value) => {
     navigate("/trips?keyword=" + value);
@@ -30,9 +32,19 @@ function TripPage() {
     navigateToTrips(value);
   };
 
+  const previewPhotos = (url) => {
+    setPhoto(url);
+    setOpenPhoto(true);
+  };
+
+  const handleCancel = () => {
+    setOpenPhoto(false);
+  };
+
   return (
     <Page>
       <div className={styles.ResponsiveContent}>
+        <div id="image-list"></div>
         <div
           style={{
             display: "flex",
@@ -64,20 +76,20 @@ function TripPage() {
                 color: "grey",
               }}
             >
-              หมวดยอดนิยม
+              หมวดยอดนิยม:
               <TagView tags={tags} />
             </div>
           </div>
         </div>
         <Row gutter={[36, 36]}>
           {trips?.map((item, idx) => {
-            const tags = item.tags;
             return (
               <Col key={idx} xs={24} sm={12}>
                 {isXS ? (
                   <Col key={idx} xs={24} sm={12}>
                     <Col style={{ paddingBottom: 12 }}>
                       <Image
+                        onClick={previewPhotos.bind(this, item.photos[0])}
                         width={"100%"}
                         src={item.photos[0]}
                         alt="Not found image"
@@ -97,11 +109,7 @@ function TripPage() {
                           flex: 1,
                         }}
                       >
-                        <DetailView
-                          title={item.title}
-                          description={item.description}
-                          tags={tags}
-                        />
+                        <DetailView item={item} />
                       </div>
                     </Col>
                   </Col>
@@ -109,6 +117,7 @@ function TripPage() {
                   <Row>
                     <Col>
                       <Image
+                        onClick={previewPhotos.bind(this, item.photos[0])}
                         width={120}
                         height={215}
                         src={item.photos[0]}
@@ -130,11 +139,7 @@ function TripPage() {
                           paddingLeft: 16,
                         }}
                       >
-                        <DetailView
-                          title={item.title}
-                          description={item.description}
-                          tags={tags}
-                        />
+                        <DetailView item={item} />
                       </div>
                       <Row>
                         <Col flex={1}>
@@ -143,6 +148,7 @@ function TripPage() {
                             style={{
                               backgroundImage: `url(${item.photos[1]})`,
                             }}
+                            onClick={previewPhotos.bind(this, item.photos[1])}
                           ></div>
                         </Col>
                         <Col flex={1}>
@@ -151,6 +157,7 @@ function TripPage() {
                             style={{
                               backgroundImage: `url(${item.photos[2]})`,
                             }}
+                            onClick={previewPhotos.bind(this, item.photos[2])}
                           ></div>
                         </Col>
                         <Col flex={1}>
@@ -159,6 +166,7 @@ function TripPage() {
                             style={{
                               backgroundImage: `url(${item.photos[3]})`,
                             }}
+                            onClick={previewPhotos.bind(this, item.photos[3])}
                           ></div>
                         </Col>
                       </Row>
@@ -170,6 +178,23 @@ function TripPage() {
           })}
         </Row>
       </div>
+      <Modal
+        open={isOpenPhoto}
+        onCancel={handleCancel}
+        closable={true}
+        footer={null}
+        centered={true}
+      >
+        <div style={{ padding: 12 }}>
+          <Image
+            width={"100%"}
+            src={photo}
+            alt="Not found image"
+            preview={false}
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+      </Modal>
     </Page>
   );
 }
