@@ -3,10 +3,12 @@ import { Page } from "react-onsenui";
 import { useMediaQuery } from "@material-ui/core";
 import { Row, Col, Image } from "antd";
 import styles from "./TripPage.module.scss";
-import { useUserViewModel } from "../viewmodels/TripViewModel";
+import { TripViewModel } from "../viewmodels/TripViewModel";
 import { useLocation, useNavigate } from "react-router-dom";
 import TagView from "./TagView";
 import Search from "antd/es/input/Search";
+import { TagViewModel } from "../viewmodels/TagViewModel";
+import DetailView from "./DetailView";
 
 function TripPage() {
   const isXS = useMediaQuery("(max-width: 576px)");
@@ -17,7 +19,8 @@ function TripPage() {
   if (keyword == null) {
     keyword = "";
   }
-  const { trips, loading } = useUserViewModel(keyword);
+  const { trips, loadingTrip } = TripViewModel(keyword);
+  const { tags, loadingTag } = TagViewModel();
 
   const navigateToTrips = (value) => {
     navigate("/trips?keyword=" + value);
@@ -34,7 +37,7 @@ function TripPage() {
           style={{
             display: "flex",
             justifyContent: "center",
-            margin: "36px 0  36px 0",
+            margin: "36px 0  18px 0",
           }}
         >
           <Search
@@ -42,12 +45,29 @@ function TripPage() {
               padding: isXS ? "0 36px 0 36px" : "0 0 0 0",
               maxWidth: "576px",
             }}
-            placeholder="input search text"
+            placeholder="ค้นหาหมวด"
             allowClear
-            enterButton="Search"
+            enterButton="ค้นหา"
             size="large"
             onSearch={onSearch}
           />
+        </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              maxWidth: "576px",
+              padding: isXS ? "0 36px 36px 36px" : "0 0 36px 0",
+            }}
+          >
+            <div
+              style={{
+                color: "grey",
+              }}
+            >
+              หมวดยอดนิยม
+              <TagView tags={tags} />
+            </div>
+          </div>
         </div>
         <Row gutter={[36, 36]}>
           {trips?.map((item, idx) => {
@@ -77,11 +97,11 @@ function TripPage() {
                           flex: 1,
                         }}
                       >
-                        <div className={styles.TextTitle}>{item.title}</div>
-                        <div className={styles.TextDescription}>
-                          {item.description}
-                        </div>
-                        <TagView tags={tags} />
+                        <DetailView
+                          title={item.title}
+                          description={item.description}
+                          tags={tags}
+                        />
                       </div>
                     </Col>
                   </Col>
@@ -110,11 +130,11 @@ function TripPage() {
                           paddingLeft: 16,
                         }}
                       >
-                        <div className={styles.TextTitle}>{item.title}</div>
-                        <div className={styles.TextDescription}>
-                          {item.description}
-                        </div>
-                        <TagView tags={tags} />
+                        <DetailView
+                          title={item.title}
+                          description={item.description}
+                          tags={tags}
+                        />
                       </div>
                       <Row>
                         <Col flex={1}>

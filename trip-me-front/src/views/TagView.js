@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./TagView.module.scss";
 
 function TagView(props) {
   const navigate = useNavigate();
@@ -9,12 +10,8 @@ function TagView(props) {
   };
 
   return (
-    <div
-      style={{
-        color: "grey",
-      }}
-    >
-      หมวด
+    <>
+      {props.text}
       {props.tags?.map((item, index) => {
         return (
           <a
@@ -26,7 +23,7 @@ function TagView(props) {
           </a>
         );
       })}
-    </div>
+    </>
   );
 }
 

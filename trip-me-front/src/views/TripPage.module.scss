@@ -21,26 +21,3 @@
   margin-left: 16px;
   border-radius: 20px;
 }
-
-.TextTitle {
-  font-size: 1rem;
-  font-weight: 900;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2em;
-  max-height: 2.4em;
-}
-
-.TextDescription {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2em;
-  max-height: 3.6em;
-  margin: 6px 0 6px 0;
-}
