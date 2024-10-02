@@ -12,9 +12,29 @@ import com.example.server.entity.TripTagEntity;
 @Repository
 public interface TripTagRepository extends JpaRepository<TripTagEntity, String> {
 
-    @Query(value = "SELECT tt.trip_id FROM tags t RIGHT JOIN trip_tag tt ON t.id = tt.tag_id WHERE t.name LIKE :keyword", nativeQuery = true)
+    @Query(value = """
+            SELECT tt.trip_id FROM tags t
+            RIGHT JOIN trip_tag tt
+            ON t.id = tt.tag_id
+            WHERE t.name LIKE :keyword
+            """, nativeQuery = true)
     List<String> findTripIdsByName(@Param("keyword") String keyword);
 
-    @Query(value = "SELECT t.name FROM tags t RIGHT JOIN trip_tag tt ON t.id = tt.tag_id WHERE tt.trip_id = :tripId", nativeQuery = true)
+    @Query(value = """
+            SELECT t.name FROM tags t
+            RIGHT JOIN trip_tag tt
+            ON t.id = tt.tag_id
+            WHERE tt.trip_id = :tripId
+            """, nativeQuery = true)
     List<String> findTagNameByTripId(@Param("tripId") String tripId);
+
+    @Query(value = """
+            select t.name from tags t
+            where id in (
+                select tg.tag_id from trip_tag tg
+                group by tag_id
+                order by count(*) DESC
+            );
+            """, nativeQuery = true)
+    List<String> findTagNamePopularity();
 }
