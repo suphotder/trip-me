@@ -1,4 +1,5 @@
 # How to run server
+
 ## Run PostgreSQL
 - Start docker
 - Open terminal
@@ -11,6 +12,8 @@ docker-compose -f dev.yml up
 - Run java spring boot
 
 # How to run Front-End
+
+## Run ReactJS
 - New terminal
 ```frontend
 cd trip-me-front
