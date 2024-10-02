@@ -21,3 +21,7 @@ yarn install
 yarn start
 ```
 > **Note:** my node version use v20.17.0
+
+## Example URL
+- http://localhost:3000/trips
+- http://localhost:3000/trips?keyword=ที่เที่ยว
