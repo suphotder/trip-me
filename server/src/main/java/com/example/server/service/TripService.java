@@ -31,7 +31,7 @@ public class TripService {
 
     public List<ResponseTripModel> getTripService(String keyword) {
         try {
-            List<String> tripIds = tripTagRepository.findTripIdsByName("%" + keyword + "%");
+            List<String> tripIds = tripTagRepository.findTripIdsByName(keyword);
             List<TripEntity> tripEntitys = tripRepository.findTripsById(tripIds);
             return tripEntitys.stream()
                     .map(entity -> {

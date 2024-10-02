@@ -16,7 +16,7 @@ public interface TripTagRepository extends JpaRepository<TripTagEntity, String> 
                         SELECT tt.trip_id FROM tags t
                         RIGHT JOIN trip_tag tt
                         ON t.id = tt.tag_id
-                        WHERE t.name LIKE :keyword
+                        WHERE t.name = :keyword
                         """, nativeQuery = true)
         List<String> findTripIdsByName(@Param("keyword") String keyword);
 
