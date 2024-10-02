@@ -1,29 +1,32 @@
 package com.example.server.controller;
 
+import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.server.entity.TripEntity;
-import com.example.server.repository.TripRepository;
+import com.example.server.model.ResponseTripModel;
+import com.example.server.service.TripService;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("trips")
 public class TripController {
-    private final TripRepository tripRepository;
+
+    private final TripService tripService;
 
     @GetMapping()
-    public String getTrip() {
-        TripEntity tripEntity1 = new TripEntity();
-        tripEntity1.setTitle("คู่มือเที่ยวเกาะช้าง กิน เที่ยว พักที่ไหนดี? อ่านจบครบที่เดียว!");
-        tripEntity1.setDescription(
-                "เริ่มจากเพื่อนอยากไปเขาคิชฌกูฏ หลังจากดูรายการทีวี จึงทำให้เกิดทริปนี้ขึ้นแบบเร่งด่วน โดยเดินทางด้วยรถ บขส. ไปยังจันทบุรี และการเดินทางหลักในการเที่ยวคือมอเตอร์ไซค์เช่า");
-        tripEntity1.setUrl("https://www.wongnai.com/trips/travel-koh-chang");
-
-        tripRepository.save(tripEntity1);
-        return "Get Trip";
+    public ResponseEntity<List<ResponseTripModel>> getTrip(
+            @RequestParam(value = "keyword", required = false) String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            keyword = "";
+        }
+        List<ResponseTripModel> responseTripModel = tripService.getTripService(keyword);
+        return ResponseEntity.ok(responseTripModel);
     }
 }

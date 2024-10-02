@@ -380,11 +380,19 @@ public class DataInitializer implements CommandLineRunner {
                 tripTagEntity5.setTagId(tagEntity4);
                 tripTagRepository.save(tripTagEntity4);
                 tripTagRepository.save(tripTagEntity5);
+                tripTagEntity5 = new TripTagEntity();
+                tripTagEntity5.setTripId(tripEntity2);
+                tripTagEntity5.setTagId(tagEntity3);
+                tripTagRepository.save(tripTagEntity5);
 
                 // tripEntity3
                 TripTagEntity tripTagEntity6 = new TripTagEntity();
                 tripTagEntity6.setTripId(tripEntity3);
                 tripTagEntity6.setTagId(tagEntity16);
+                tripTagRepository.save(tripTagEntity6);
+                tripTagEntity6 = new TripTagEntity();
+                tripTagEntity6.setTripId(tripEntity3);
+                tripTagEntity6.setTagId(tagEntity3);
                 tripTagRepository.save(tripTagEntity6);
 
                 // tripEntity4
@@ -421,6 +429,14 @@ public class DataInitializer implements CommandLineRunner {
                 TripTagEntity tripTagEntity13 = new TripTagEntity();
                 tripTagEntity13.setTripId(tripEntity7);
                 tripTagEntity13.setTagId(tagEntity7);
+                tripTagRepository.save(tripTagEntity13);
+                tripTagEntity13 = new TripTagEntity();
+                tripTagEntity13.setTripId(tripEntity7);
+                tripTagEntity13.setTagId(tagEntity16);
+                tripTagRepository.save(tripTagEntity13);
+                tripTagEntity13 = new TripTagEntity();
+                tripTagEntity13.setTripId(tripEntity7);
+                tripTagEntity13.setTagId(tagEntity4);
                 tripTagRepository.save(tripTagEntity13);
 
                 // tripEntity8
@@ -460,7 +476,6 @@ public class DataInitializer implements CommandLineRunner {
                 tripTagRepository.save(tripTagEntity19);
                 tripTagRepository.save(tripTagEntity20);
                 tripTagRepository.save(tripTagEntity21);
-
             }
         } catch (Exception e) {
         }
