@@ -9,5 +9,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class ResponseTripModel extends TripModel {
     private List<String> photos;
-    private List<String> tag;
+    private List<String> tags;
 }

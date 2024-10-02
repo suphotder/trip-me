@@ -38,7 +38,7 @@ public class TripService {
                         ResponseTripModel responseTripModel = modelMapper.map(entity, ResponseTripModel.class);
                         List<String> tags = tripTagRepository.findTagNameByTripId(entity.getId());
                         List<String> photos = photoRepository.findTripsByTripId(entity.getId());
-                        responseTripModel.setTag(tags);
+                        responseTripModel.setTags(tags);
                         responseTripModel.setPhotos(photos);
                         return responseTripModel;
                     })
