@@ -3,7 +3,7 @@ import useFetch, { CachePolicies } from "use-http";
 
 export const TagViewModel = () => {
   const [tags, setTags] = useState([]);
-  const [loadingTag, setLoadingTag] = useState(true);
+  const [loadingTag, setLoadingTag] = useState(false);
   const tagApi = useFetch(`http://localhost:9000/api/tags`, {
     cachePolicy: CachePolicies.NO_CACHE,
   });

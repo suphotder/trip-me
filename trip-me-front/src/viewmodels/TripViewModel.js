@@ -3,7 +3,7 @@ import useFetch, { CachePolicies } from "use-http";
 
 export const TripViewModel = (keyword) => {
   const [trips, setTrips] = useState([]);
-  const [loadingTrip, setLoadingTrip] = useState(true);
+  const [loadingTrip, setLoadingTrip] = useState(false);
 
   const tripsApi = useFetch(`http://localhost:9000/api/trips`, {
     cachePolicy: CachePolicies.NO_CACHE,
