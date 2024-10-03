@@ -14,4 +14,15 @@ public interface TripRepository extends JpaRepository<TripEntity, String> {
 
     @Query("SELECT trip FROM TripEntity trip WHERE trip.id IN :tripIds")
     List<TripEntity> findTripsById(@Param("tripIds") List<String> tripIds);
+
+    @Query("""
+            SELECT tp FROM TripEntity tp
+            RIGHT JOIN TripTagEntity tt ON tp.id = tt.tripId.id
+            RIGHT JOIN TagEntity t ON tt.tagId.id = t.id
+            WHERE t.name = :keyword
+            OR tp.description LIKE :keywordLike
+            OR tp.title LIKE :keywordLike
+            GROUP BY tp.id
+            """)
+    List<TripEntity> findTripsByKeyWord(@Param("keyword") String keyword, @Param("keywordLike") String keywordLike);
 }

@@ -31,11 +31,13 @@ public class TripService {
 
     public List<ResponseTripModel> getTripService(String keyword) {
         try {
-            List<String> tripIds = tripTagRepository.findTripIdsByName(keyword);
-            List<TripEntity> tripEntitys = tripRepository.findTripsById(tripIds);
+            // List<String> tripIds = tripTagRepository.findTripIdsByName(keyword);
+            String keywordLike = "%" + keyword + "%";
+            List<TripEntity> tripEntitys = tripRepository.findTripsByKeyWord(keyword, keywordLike);
             return tripEntitys.stream()
                     .map(entity -> {
-                        ResponseTripModel responseTripModel = modelMapper.map(entity, ResponseTripModel.class);
+                        ResponseTripModel responseTripModel = modelMapper.map(entity,
+                                ResponseTripModel.class);
                         List<String> tags = tripTagRepository.findTagNameByTripId(entity.getId());
                         List<String> photos = photoRepository.findTripsByTripId(entity.getId());
                         responseTripModel.setTags(tags);
