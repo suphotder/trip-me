@@ -57,7 +57,7 @@ function TripPage() {
               padding: isXS ? "0 36px 0 36px" : "0 0 0 0",
               maxWidth: "576px",
             }}
-            placeholder="ค้นหาหมวด"
+            placeholder="ค้นหา"
             allowClear
             enterButton="ค้นหา"
             size="large"
