@@ -10,6 +10,7 @@ import Search from "antd/es/input/Search";
 import { TagViewModel } from "../viewmodels/TagViewModel";
 import DetailView from "./DetailView";
 import { PhotoModalViewModel } from "../viewmodels/PhotoModalViewModel";
+import StatusView from "./StatusView";
 
 function TripPage() {
   const isXS = useMediaQuery("(max-width: 576px)");
@@ -42,142 +43,147 @@ function TripPage() {
   };
 
   return (
-    <Page>
-      <div className={styles.ResponsiveContent}>
-        <div id="image-list"></div>
+    <div className={styles.ResponsiveContent}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "36px 0  18px 0",
+        }}
+      >
+        <Search
+          style={{
+            padding: isXS ? "0 36px 0 36px" : "0 0 0 0",
+            maxWidth: "576px",
+          }}
+          placeholder="ค้นหา"
+          allowClear
+          enterButton="ค้นหา"
+          size="large"
+          onSearch={onSearch}
+        />
+      </div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <div
           style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "36px 0  18px 0",
+            maxWidth: "576px",
+            padding: isXS ? "0 36px 36px 36px" : "0 0 36px 0",
           }}
         >
-          <Search
-            style={{
-              padding: isXS ? "0 36px 0 36px" : "0 0 0 0",
-              maxWidth: "576px",
-            }}
-            placeholder="ค้นหา"
-            allowClear
-            enterButton="ค้นหา"
-            size="large"
-            onSearch={onSearch}
-          />
-        </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
           <div
             style={{
-              maxWidth: "576px",
-              padding: isXS ? "0 36px 36px 36px" : "0 0 36px 0",
+              color: "grey",
             }}
           >
-            <div
-              style={{
-                color: "grey",
-              }}
-            >
-              หมวดยอดนิยม:
-              <TagView tags={tags} />
-            </div>
+            หมวดยอดนิยม:
+            <TagView tags={tags} />
           </div>
         </div>
-        <Row gutter={[36, 36]}>
-          {trips?.map((item, idx) => {
-            return (
-              <Col key={idx} xs={24} sm={12}>
-                {isXS ? (
-                  <Col key={idx} xs={24} sm={12}>
-                    <Col style={{ paddingBottom: 12 }}>
-                      <Image
-                        onClick={previewPhotos.bind(this, item.photos[0])}
-                        width={"100%"}
-                        src={item.photos[0]}
-                        alt="Not found image"
-                        preview={false}
-                        style={{ objectFit: "cover", borderRadius: 20 }}
-                      />
-                    </Col>
-                    <Col
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        flex: 1,
-                      }}
-                    >
-                      <div
-                        style={{
-                          flex: 1,
-                        }}
-                      >
-                        <DetailView item={item} />
-                      </div>
-                    </Col>
-                  </Col>
-                ) : (
-                  <Row>
-                    <Col>
-                      <Image
-                        onClick={previewPhotos.bind(this, item.photos[0])}
-                        width={120}
-                        height={215}
-                        src={item.photos[0]}
-                        alt="Not found image"
-                        preview={false}
-                        style={{ objectFit: "cover", borderRadius: 20 }}
-                      />
-                    </Col>
-                    <Col
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        flex: 1,
-                      }}
-                    >
-                      <div
-                        style={{
-                          flex: 1,
-                          paddingLeft: 16,
-                        }}
-                      >
-                        <DetailView item={item} />
-                      </div>
-                      <Row>
-                        <Col flex={1}>
-                          <div
-                            className={styles.ImageSmall}
-                            style={{
-                              backgroundImage: `url(${item.photos[1]})`,
-                            }}
-                            onClick={previewPhotos.bind(this, item.photos[1])}
-                          ></div>
-                        </Col>
-                        <Col flex={1}>
-                          <div
-                            className={styles.ImageSmall}
-                            style={{
-                              backgroundImage: `url(${item.photos[2]})`,
-                            }}
-                            onClick={previewPhotos.bind(this, item.photos[2])}
-                          ></div>
-                        </Col>
-                        <Col flex={1}>
-                          <div
-                            className={styles.ImageSmall}
-                            style={{
-                              backgroundImage: `url(${item.photos[3]})`,
-                            }}
-                            onClick={previewPhotos.bind(this, item.photos[3])}
-                          ></div>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                )}
-              </Col>
-            );
-          })}
-        </Row>
       </div>
+      {!loadingTrip ? (
+        trips.length > 0 ? (
+          <Row gutter={[36, 36]}>
+            {trips?.map((item, idx) => {
+              return (
+                <Col key={idx} xs={24} sm={12}>
+                  {isXS ? (
+                    <Col key={idx} xs={24} sm={12}>
+                      <Col style={{ paddingBottom: 12 }}>
+                        <Image
+                          onClick={previewPhotos.bind(this, item.photos[0])}
+                          width={"100%"}
+                          src={item.photos[0]}
+                          alt="Not found image"
+                          preview={false}
+                          style={{ objectFit: "cover", borderRadius: 20 }}
+                        />
+                      </Col>
+                      <Col
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          flex: 1,
+                        }}
+                      >
+                        <div
+                          style={{
+                            flex: 1,
+                          }}
+                        >
+                          <DetailView item={item} />
+                        </div>
+                      </Col>
+                    </Col>
+                  ) : (
+                    <Row>
+                      <Col>
+                        <Image
+                          onClick={previewPhotos.bind(this, item.photos[0])}
+                          width={120}
+                          height={215}
+                          src={item.photos[0]}
+                          alt="Not found image"
+                          preview={false}
+                          style={{ objectFit: "cover", borderRadius: 20 }}
+                        />
+                      </Col>
+                      <Col
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          flex: 1,
+                        }}
+                      >
+                        <div
+                          style={{
+                            flex: 1,
+                            paddingLeft: 16,
+                          }}
+                        >
+                          <DetailView item={item} />
+                        </div>
+                        <Row>
+                          <Col flex={1}>
+                            <div
+                              className={styles.ImageSmall}
+                              style={{
+                                backgroundImage: `url(${item.photos[1]})`,
+                              }}
+                              onClick={previewPhotos.bind(this, item.photos[1])}
+                            ></div>
+                          </Col>
+                          <Col flex={1}>
+                            <div
+                              className={styles.ImageSmall}
+                              style={{
+                                backgroundImage: `url(${item.photos[2]})`,
+                              }}
+                              onClick={previewPhotos.bind(this, item.photos[2])}
+                            ></div>
+                          </Col>
+                          <Col flex={1}>
+                            <div
+                              className={styles.ImageSmall}
+                              style={{
+                                backgroundImage: `url(${item.photos[3]})`,
+                              }}
+                              onClick={previewPhotos.bind(this, item.photos[3])}
+                            ></div>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  )}
+                </Col>
+              );
+            })}
+          </Row>
+        ) : (
+          <StatusView>Empty data</StatusView>
+        )
+      ) : (
+        <StatusView>Lodding....</StatusView>
+      )}
       <Modal
         open={isOpenPhoto}
         onCancel={handleCancel}
@@ -195,7 +201,7 @@ function TripPage() {
           />
         </div>
       </Modal>
-    </Page>
+    </div>
   );
 }
 

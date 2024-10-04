@@ -13,12 +13,10 @@ export const TripViewModel = (keyword) => {
     const fetchData = async () => {
       setLoadingTrip(true);
       const res = await tripsApi.get(`?keyword=` + keyword);
-      setTrips(res);
+      setTrips(Array.isArray(res) ? res : []);
       setLoadingTrip(false);
     };
-
     fetchData();
   }, [keyword]);
-
   return { trips, loadingTrip };
 };

@@ -12,7 +12,7 @@ export const TagViewModel = () => {
     const fetchData = async () => {
       setLoadingTag(true);
       const res = await tagApi.get(`/popular`);
-      setTags(res);
+      setTags(Array.isArray(res) ? res : []);
       setLoadingTag(false);
     };
     fetchData();
